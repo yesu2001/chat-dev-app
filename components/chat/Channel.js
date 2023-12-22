@@ -6,26 +6,30 @@ import { groupChats } from "../../context/data";
 import { getInitials } from "@/lib/helpers";
 import pic1 from "/public/pic1.png";
 
-export default function Channel() {
+export default function Channel({ setSelectedGroup, groupData }) {
+  const handleGoBack = () => {
+    setSelectedGroup(null);
+  };
+
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="flex-[0.9] py-2 px-4">
-        <div className="flex items-center gap-2 shadow-md shadow-black py-4">
-          <button className="text-white text-xl">
+      <div className="flex-[0.9] py-2">
+        <div className="flex items-center px-4 gap-2 shadow-md shadow-black py-4">
+          <button className="text-white text-xl" onClick={handleGoBack}>
             <IoIosArrowBack />
           </button>
           <p className="text-[#E0E0E0]">All Channels</p>
         </div>
-        <div className="py-4 space-y-3">
-          <p className="uppercase font-[700]">Front-End</p>
+        <div className="p-4 space-y-3">
+          <p className="uppercase font-[700]">{groupData?.groupName}</p>
           <p className="text-sm text-[#E0E0E0]">
             Pellentesque sagittis elit enim, sit amet ultrices tellus accumsan
             quis. In gravida mollis purus, at interdum arcu tempor non
           </p>
         </div>
-        <div className="space-y-4 mt-3">
+        <div className="space-y-4 mt-3 px-4">
           <p>MEMBERS</p>
-          {groupChats[0].members.map((member, index) => (
+          {groupData?.members?.map((member, index) => (
             <div
               key={index}
               className="flex items-center justify-start gap-2 cursor-pointer"

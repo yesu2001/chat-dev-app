@@ -11,14 +11,19 @@ import { getInitials } from "@/lib/helpers";
 import pic1 from "/public/pic1.png";
 import Modal from "../Modal";
 
-export default function Channels() {
+export default function Channels({ handleSelectGroup }) {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
 
+  const handleSelectChannel = (chat) => {
+    console.log(chat);
+    handleSelectGroup(chat);
+  };
+
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="flex-[0.9] py-2 px-4">
-        <div className="flex justify-between items-center shadow-md shadow-black py-4">
+      <div className="flex-[0.9] py-2">
+        <div className="flex justify-between items-center px-4 shadow-md shadow-black py-4">
           <p className="text-[#E0E0E0]">All Channels</p>
           <button
             className="bg-[#252329] p-1 rounded-md"
@@ -28,7 +33,7 @@ export default function Channels() {
           </button>
           {open && <Modal onClose={() => setOpen(false)} />}
         </div>
-        <div className="py-4">
+        <div className="p-4">
           <div className="flex items-center gap-2 bg-[#3C393F] rounded-md px-2 py-1">
             <IoMdSearch />
             <input
@@ -38,11 +43,12 @@ export default function Channels() {
             />
           </div>
         </div>
-        <div className="space-y-4 mt-3">
+        <div className="space-y-4 mt-3 px-4">
           {groupChats.map((chat, index) => (
             <div
               key={index}
-              className="flex items-center justify-start gap-2 cursor-pointer"
+              className="flex items-center justify-start gap-2 cursor-pointer hover:bg-slate-800 p-1 rounded-md"
+              onClick={() => handleSelectChannel(chat)}
             >
               <p className="flex-[0.15] bg-[#252329] text-xs p-1 rounded-md text-center">
                 {getInitials(chat.groupName)}
