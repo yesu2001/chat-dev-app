@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+// import { FaGithub, FaGoogle } from "react-icons/fa";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -70,12 +70,12 @@ export default function Auth() {
     }
   };
 
-  const handleGithubAuth = () => {
-    signIn("github");
-  };
-  const handleGoogleAuth = () => {
-    signIn("google");
-  };
+  // const handleGithubAuth = () => {
+  //   signIn("github");
+  // };
+  // const handleGoogleAuth = () => {
+  //   signIn("google");
+  // };
 
   if (sessionStatus === "loading") {
     return <h1>Loading...</h1>;
@@ -123,7 +123,7 @@ export default function Auth() {
       <p className="text-xs text-[#828282] text-center">
         or continue with these social profile
       </p>
-      <div className="my-3 flex gap-2 items-center justify-center">
+      {/* <div className="my-3 flex gap-2 items-center justify-center">
         <button
           className="border  border-[#BDBDBD] rounded-full p-2"
           onClick={handleGoogleAuth}
@@ -136,7 +136,7 @@ export default function Auth() {
         >
           <FaGithub style={{ color: "#BDBDBD" }} />
         </button>
-      </div>
+      </div> */}
       <p className="text-xs text-[#828282] text-center">
         {login ? "Don't have an account yet?" : "Already a member?"}{" "}
         <span
