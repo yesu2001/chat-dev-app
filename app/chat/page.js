@@ -1,12 +1,23 @@
-import Messages from "@/components/chat/Messages";
-import SideBar from "@/components/chat/SideBar";
 import React from "react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-export default function page() {
+import { getUser } from "@/lib/dbRequests";
+import ChatComponent from "@/components/chat/ChatComponent";
+
+export default async function page() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/login");
+  }
+
+  const userData = await getUser(session?.user?.id);
+  console.log(userData);
+
   return (
-    <div className="flex min-h-screen w-full">
-      <SideBar />
-      <Messages />
+    <div>
+      <ChatComponent userData={userData} />
     </div>
   );
 }

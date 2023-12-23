@@ -1,17 +1,19 @@
+import { addNewGroup } from "@/lib/dbRequests";
 import { handleAddNewChannel } from "@/lib/helpers";
 import React from "react";
 
-export default function Modal({ onClose }) {
-  const handleNewChannel = (formData) => {
+export default function Modal({ onClose, userData }) {
+  const handleNewChannel = async (formData) => {
     handleAddNewChannel(formData);
     const channelName = formData.get("name");
     const channelDescription = formData.get("description");
     const channel = {
-      id: "ufgusdgf",
+      user_id: userData.id,
       name: channelName,
       description: channelDescription,
     };
-    handleAddNewChannel(channel);
+
+    await addNewGroup(channel);
     onClose();
   };
   return (

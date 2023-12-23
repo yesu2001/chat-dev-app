@@ -6,7 +6,12 @@ import { groupChats } from "../../context/data";
 import { getInitials } from "@/lib/helpers";
 import pic1 from "/public/pic1.png";
 
-export default function Channel({ setSelectedGroup, groupData }) {
+export default function Channel({
+  selectedGroup,
+  setSelectedGroup,
+  members,
+  userData,
+}) {
   const handleGoBack = () => {
     setSelectedGroup(null);
   };
@@ -21,15 +26,12 @@ export default function Channel({ setSelectedGroup, groupData }) {
           <p className="text-[#E0E0E0]">All Channels</p>
         </div>
         <div className="p-4 space-y-3">
-          <p className="uppercase font-[700]">{groupData?.groupName}</p>
-          <p className="text-sm text-[#E0E0E0]">
-            Pellentesque sagittis elit enim, sit amet ultrices tellus accumsan
-            quis. In gravida mollis purus, at interdum arcu tempor non
-          </p>
+          <p className="uppercase font-[700]">{selectedGroup?.name}</p>
+          <p className="text-sm text-[#E0E0E0]">{selectedGroup?.description}</p>
         </div>
         <div className="space-y-4 mt-3 px-4">
           <p>MEMBERS</p>
-          {groupData?.members?.map((member, index) => (
+          {members?.map((member, index) => (
             <div
               key={index}
               className="flex items-center justify-start gap-2 cursor-pointer"
@@ -45,8 +47,13 @@ export default function Channel({ setSelectedGroup, groupData }) {
 
       <div className="flex-[0.1] flex items-center justify-between px-4  bg-[#0B090C]">
         <div className="flex items-center gap-4">
-          <Image src={pic1} alt="pic" width="40" height="40" />
-          <p>Xavier</p>
+          <Image
+            src={userData?.image || pic1}
+            alt="pic"
+            width="40"
+            height="40"
+          />
+          <p>{userData?.name}</p>
         </div>
         <button>
           <FaAngleDown />

@@ -1,6 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 100vh;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
+  }
+}
+
 /* 
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300&family=Cabin&family=DM+Sans:opsz,wght@9..40,300&family=Dancing+Script:wght@700&family=Noto+Sans:wght@300&family=Pixelify+Sans&family=Poppins&family=Roboto+Condensed&family=Roboto+Slab&display=swap"); */
 :root {

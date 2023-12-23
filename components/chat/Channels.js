@@ -11,13 +11,20 @@ import { getInitials } from "@/lib/helpers";
 import pic1 from "/public/pic1.png";
 import Modal from "../Modal";
 
-export default function Channels({ handleSelectGroup }) {
+export default function Channels({ groups, handleSelectGroup, userData }) {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchItems, setSearchItems] = useState([{}, {}]);
 
   const handleSelectChannel = (chat) => {
-    console.log(chat);
     handleSelectGroup(chat);
+    console.log(chat);
+  };
+
+  const handleSearch = (text) => {
+    setSearchValue(text);
+    console.log(text);
   };
 
   return (
@@ -31,7 +38,7 @@ export default function Channels({ handleSelectGroup }) {
           >
             <IoMdAdd style={{ color: "white" }} />
           </button>
-          {open && <Modal onClose={() => setOpen(false)} />}
+          {open && <Modal onClose={() => setOpen(false)} userData={userData} />}
         </div>
         <div className="p-4">
           <div className="flex items-center gap-2 bg-[#3C393F] rounded-md px-2 py-1">
@@ -39,21 +46,23 @@ export default function Channels({ handleSelectGroup }) {
             <input
               type="text"
               placeholder="Search"
+              value={searchValue}
+              onChange={(e) => handleSearch(e.target.value)}
               className="bg-transparent outline-none placeholder:text-xs"
             />
           </div>
         </div>
         <div className="space-y-4 mt-3 px-4">
-          {groupChats.map((chat, index) => (
+          {groups?.map((chat, index) => (
             <div
               key={index}
               className="flex items-center justify-start gap-2 cursor-pointer hover:bg-slate-800 p-1 rounded-md"
               onClick={() => handleSelectChannel(chat)}
             >
               <p className="flex-[0.15] bg-[#252329] text-xs p-1 rounded-md text-center">
-                {getInitials(chat.groupName)}
+                {getInitials(chat?.name)}
               </p>
-              <p className="flex-[0.85] text-[#BDBDBD]">{chat.groupName}</p>
+              <p className="flex-[0.85] text-[#BDBDBD]">{chat?.name}</p>
             </div>
           ))}
         </div>
@@ -61,8 +70,8 @@ export default function Channels({ handleSelectGroup }) {
 
       <div className="flex-[0.1] relative flex items-center justify-between px-4  bg-[#0B090C]">
         <div className="flex items-center gap-4">
-          <Image src={pic1} alt="pic" width="40" height="40" />
-          <p>Xavier</p>
+          <Image src={userData.image} alt="pic" width="40" height="40" />
+          <p>{userData?.name}</p>
         </div>
         <button onClick={() => setShow(!show)}>
           <FaAngleDown />

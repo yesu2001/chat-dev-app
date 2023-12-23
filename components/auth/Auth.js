@@ -15,7 +15,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (sessionStatus === "authenticated") {
-      router.replace("/profile");
+      router.replace("/chat");
     }
   }, [sessionStatus, router]);
 
