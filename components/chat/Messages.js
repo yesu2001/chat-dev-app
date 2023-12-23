@@ -11,8 +11,8 @@ export default function Messages({ group }) {
   const messageContainerRef = useRef(null);
 
   useEffect(() => {
-    messageContainerRef.current.scrollTo({
-      top: messageContainerRef.current.scrollHeight,
+    messageContainerRef?.current?.scrollTo({
+      top: messageContainerRef?.current?.scrollHeight,
       behavior: "smooth",
     });
   }, [messages]);
