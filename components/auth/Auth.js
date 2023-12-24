@@ -137,7 +137,7 @@ export default function Auth() {
           <FaGithub style={{ color: "#BDBDBD" }} />
         </button>
       </div> */}
-      <p className="text-xs text-[#828282] text-center">
+      <button className="text-xs text-[#828282] text-center">
         {login ? "Don't have an account yet?" : "Already a member?"}{" "}
         <span
           className="text-[#2D9CDB] cursor-pointer"
@@ -145,7 +145,7 @@ export default function Auth() {
         >
           {login ? "Register" : " Login"}
         </span>
-      </p>
+      </button>
     </div>
   );
 }

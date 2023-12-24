@@ -13,7 +13,6 @@ export default async function page() {
   }
 
   const userData = await getUser(session?.user?.id);
-  console.log(userData);
 
   return (
     <div>

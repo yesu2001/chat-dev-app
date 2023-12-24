@@ -2,18 +2,17 @@
 import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { IoMdSearch } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa";
-import { MdAccountCircle } from "react-icons/md";
-import { MdLogout } from "react-icons/md";
-import Image from "next/image";
-import { groupChats } from "../../context/data";
 import { getInitials } from "@/lib/helpers";
-import pic1 from "/public/pic1.png";
 import Modal from "../Modal";
+import Settings from "./Settings";
 
-export default function Channels({ groups, handleSelectGroup, userData }) {
+export default function Channels({
+  groups,
+  handleSelectGroup,
+  userData,
+  createChannel,
+}) {
   const [open, setOpen] = useState(false);
-  const [show, setShow] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchItems, setSearchItems] = useState([{}, {}]);
 
@@ -38,7 +37,12 @@ export default function Channels({ groups, handleSelectGroup, userData }) {
           >
             <IoMdAdd style={{ color: "white" }} />
           </button>
-          {open && <Modal onClose={() => setOpen(false)} userData={userData} />}
+          {open && (
+            <Modal
+              onClose={() => setOpen(false)}
+              createChannel={createChannel}
+            />
+          )}
         </div>
         <div className="p-4">
           <div className="flex items-center gap-2 bg-[#3C393F] rounded-md px-2 py-1">
@@ -53,6 +57,9 @@ export default function Channels({ groups, handleSelectGroup, userData }) {
           </div>
         </div>
         <div className="space-y-4 mt-3 px-4">
+          {groups?.length === 0 && (
+            <p className="text-lg text-slate-400">No Channels Joined!</p>
+          )}
           {groups?.map((chat, index) => (
             <div
               key={index}
@@ -68,30 +75,7 @@ export default function Channels({ groups, handleSelectGroup, userData }) {
         </div>
       </div>
 
-      <div className="flex-[0.1] relative flex items-center justify-between px-4  bg-[#0B090C]">
-        <div className="flex items-center gap-4">
-          <Image src={userData.image} alt="pic" width="40" height="40" />
-          <p>{userData?.name}</p>
-        </div>
-        <button onClick={() => setShow(!show)}>
-          <FaAngleDown />
-        </button>
-        <div
-          className={`my-4 space-y-2 absolute bottom-14 right-3 p-2 px-4 rounded-md ${
-            show ? "block opacity-100 bg-[#3C393F]" : "hidden opacity-0"
-          }`}
-        >
-          <div className="flex items-center gap-4">
-            <MdAccountCircle />
-            <p className="cursor-pointer">Profile</p>
-          </div>
-          <hr />
-          <div className="flex items-center gap-4">
-            <MdLogout className="text-red-400" />
-            <p className="text-red-400 cursor-pointer">Logout</p>
-          </div>
-        </div>
-      </div>
+      <Settings userData={userData} />
     </div>
   );
 }

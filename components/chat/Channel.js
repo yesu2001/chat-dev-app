@@ -1,10 +1,8 @@
 import React from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa";
-import Image from "next/image";
 import { groupChats } from "../../context/data";
 import { getInitials } from "@/lib/helpers";
-import pic1 from "/public/pic1.png";
+import Settings from "./Settings";
 
 export default function Channel({
   selectedGroup,
@@ -37,28 +35,15 @@ export default function Channel({
               className="flex items-center justify-start gap-2 cursor-pointer"
             >
               <p className="flex-[0.15] bg-[#252329] text-xs p-1 rounded-md text-center">
-                {getInitials(member)}
+                {getInitials(member?.user_name)}
               </p>
-              <p className="flex-[0.85] text-[#BDBDBD]">{member}</p>
+              <p className="flex-[0.85] text-[#BDBDBD]">{member?.user_name}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex-[0.1] flex items-center justify-between px-4  bg-[#0B090C]">
-        <div className="flex items-center gap-4">
-          <Image
-            src={userData?.image || pic1}
-            alt="pic"
-            width="40"
-            height="40"
-          />
-          <p>{userData?.name}</p>
-        </div>
-        <button>
-          <FaAngleDown />
-        </button>
-      </div>
+      <Settings userData={userData} />
     </div>
   );
 }

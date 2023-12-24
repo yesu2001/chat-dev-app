@@ -2,7 +2,10 @@
 
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import Link from "next/link";
+import { FaCaretDown, FaCaretUp, FaRocketchat } from "react-icons/fa";
+import { MdAccountCircle } from "react-icons/md";
+import { RiLogoutBoxRFill } from "react-icons/ri";
 import { IoMdPerson } from "react-icons/io";
 
 export default function Header() {
@@ -23,8 +26,20 @@ export default function Header() {
           open ? "block opacity-100 bg-slate-500" : "hidden opacity-0"
         }`}
       >
-        <p className="cursor-pointer">Profile</p>
-        <p className="text-red-300 cursor-pointer" onClick={handleLogout}>
+        <div className="cursor-pointer flex items-center gap-1 ">
+          <MdAccountCircle className="" />
+          <p>Profile</p>
+        </div>
+        <Link href="/chat" className="flex items-center gap-1">
+          <FaRocketchat />
+          Chat
+        </Link>
+        <hr className="border-slate-400" />
+        <p
+          className="flex items-center gap-1 text-red-300 cursor-pointer"
+          onClick={handleLogout}
+        >
+          <RiLogoutBoxRFill />
           Logout
         </p>
       </div>

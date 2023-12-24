@@ -1,14 +1,19 @@
 "use client";
-import { groupChats } from "@/context/data";
 import React, { useEffect, useRef, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import Image from "next/image";
 import pic1 from "/public/pic1.png";
+import { createMessage } from "@/lib/dbRequests";
 
-export default function Messages({ group }) {
-  const [messages, setMessages] = useState(chatMessages);
+export default function Messages({ chatMessages, group, userData }) {
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const messageContainerRef = useRef(null);
+
+  console.log(chatMessages);
+  useEffect(() => {
+    setMessages(chatMessages);
+  }, []);
 
   useEffect(() => {
     messageContainerRef?.current?.scrollTo({
@@ -17,15 +22,23 @@ export default function Messages({ group }) {
     });
   }, [messages]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     console.log(message);
     if (message.length === 0) {
       return;
     }
     console.log(message);
-    // messages.push();
-    setMessages((prevState) => [...prevState, { sender: "admin", message }]);
+    const newMessage = {
+      message,
+      group_id: group.id,
+      user_id: userData.id,
+    };
+    const { data, error } = await createMessage(newMessage);
+    if (error) {
+      alert(error.message);
+    }
+    setMessages((prevState) => [...prevState, data]);
     setMessage("");
   };
 
@@ -39,11 +52,11 @@ export default function Messages({ group }) {
         )}
         {group ? (
           <div
-            className="flex-[1] py-5 px-12 space-y-4 overflow-y-auto scrollbar max-h-[calc(100vh-7rem)] mb-3"
+            className="flex-[1] relative py-5 px-12 space-y-4 overflow-y-auto scrollbar max-h-[calc(100vh-7rem)] mb-3"
             ref={messageContainerRef}
             style={{
-              scrollbarWidth: "5px", // Optional: Customize scrollbar appearance
-              scrollBehavior: "smooth", // Apply smooth scrolling behavior
+              scrollbarWidth: "5px",
+              scrollBehavior: "smooth",
             }}
           >
             {messages.map((message, index) => (
@@ -54,7 +67,7 @@ export default function Messages({ group }) {
                 <div>
                   <div>
                     <p className="text-[#828282] text-[14px]">
-                      {message.sender}
+                      {message.user_name}
                     </p>
                   </div>
                   <p className="text-[#E0E0E0]">{message.message}</p>
@@ -91,44 +104,44 @@ export default function Messages({ group }) {
   );
 }
 
-const chatMessages = [
-  {
-    sender: "Mia",
-    message: "What's your go-to framework for building responsive web apps?",
-  },
-  {
-    sender: "Nick",
-    message: "React all the way! It makes UI development a breeze.",
-  },
-  { sender: "Olivia", message: "I'm exploring Vue.js. It's so intuitive!" },
-  {
-    sender: "Paul",
-    message: "CSS Grid has been a game-changer for layout design.",
-  },
-  {
-    sender: "Mia",
-    message: "What's your go-to framework for building responsive web apps?",
-  },
-  {
-    sender: "Nick",
-    message: "React all the way! It makes UI development a breeze.",
-  },
-  { sender: "Olivia", message: "I'm exploring Vue.js. It's so intuitive!" },
-  {
-    sender: "Paul",
-    message: "CSS Grid has been a game-changer for layout design.",
-  },
-  {
-    sender: "Mia",
-    message: "What's your go-to framework for building responsive web apps?",
-  },
-  {
-    sender: "Nick",
-    message: "React all the way! It makes UI development a breeze.",
-  },
-  { sender: "Olivia", message: "I'm exploring Vue.js. It's so intuitive!" },
-  {
-    sender: "Paul",
-    message: "CSS Grid has been a game-changer for layout design.",
-  },
-];
+// const chatMessages = [
+//   {
+//     sender: "Mia",
+//     message: "What's your go-to framework for building responsive web apps?",
+//   },
+//   {
+//     sender: "Nick",
+//     message: "React all the way! It makes UI development a breeze.",
+//   },
+//   { sender: "Olivia", message: "I'm exploring Vue.js. It's so intuitive!" },
+//   {
+//     sender: "Paul",
+//     message: "CSS Grid has been a game-changer for layout design.",
+//   },
+//   {
+//     sender: "Mia",
+//     message: "What's your go-to framework for building responsive web apps?",
+//   },
+//   {
+//     sender: "Nick",
+//     message: "React all the way! It makes UI development a breeze.",
+//   },
+//   { sender: "Olivia", message: "I'm exploring Vue.js. It's so intuitive!" },
+//   {
+//     sender: "Paul",
+//     message: "CSS Grid has been a game-changer for layout design.",
+//   },
+//   {
+//     sender: "Mia",
+//     message: "What's your go-to framework for building responsive web apps?",
+//   },
+//   {
+//     sender: "Nick",
+//     message: "React all the way! It makes UI development a breeze.",
+//   },
+//   { sender: "Olivia", message: "I'm exploring Vue.js. It's so intuitive!" },
+//   {
+//     sender: "Paul",
+//     message: "CSS Grid has been a game-changer for layout design.",
+//   },
+// ];
