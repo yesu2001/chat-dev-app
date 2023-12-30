@@ -8,6 +8,7 @@ import ChatComponent from "@/components/chat/ChatComponent";
 
 export default async function page() {
   const session = await getServerSession(authOptions);
+
   if (!session) {
     redirect("/login");
   }

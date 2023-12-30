@@ -17,7 +17,7 @@ export default function Messages({ chatMessages, group, userData }) {
 
   useEffect(() => {
     messageContainerRef?.current?.scrollTo({
-      top: messageContainerRef?.current?.scrollHeight,
+      top: messageContainerRef?.current?.scrollHeight + 100,
       behavior: "smooth",
     });
   }, [messages]);
@@ -59,7 +59,7 @@ export default function Messages({ chatMessages, group, userData }) {
               scrollBehavior: "smooth",
             }}
           >
-            {messages.map((message, index) => (
+            {chatMessages?.map((message, index) => (
               <div key={index} className="flex gap-3">
                 <div>
                   <Image src={pic1} alt="pic" width="40" height="40" />
