@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { IoMdSearch } from "react-icons/io";
+import debounce from "lodash/debounce";
 import { getInitials } from "@/lib/helpers";
 import Modal from "../Modal";
 import Settings from "./Settings";
+import { searchGroup } from "@/lib/dbRequests";
+import JoinModal from "./JoinModal";
 
 export default function Channels({
   groups,
@@ -13,17 +16,42 @@ export default function Channels({
   createChannel,
 }) {
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [searchItems, setSearchItems] = useState([{}, {}]);
+  const [searchItems, setSearchItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSelectChannel = (chat) => {
     handleSelectGroup(chat);
-    console.log(chat);
   };
 
-  const handleSearch = (text) => {
+  const debouncedSearch = debounce((query) => {
+    getGroups(query);
+  }, 500);
+
+  const getGroups = async (query) => {
+    if (query.length === 0) {
+      setSearchItems([]);
+      return;
+    }
+    const { data, error } = await searchGroup(query);
+    if (error) {
+      alert(error);
+    }
+    setSearchItems(data);
+  };
+
+  const handleSearch = async (text) => {
+    if (text === "") {
+      setSearchItems([]);
+    }
     setSearchValue(text);
-    console.log(text);
+    debouncedSearch(text);
+  };
+
+  const selectGroupForJoining = (data) => {
+    setSelectedItem(data);
+    setOpenModal(true);
   };
 
   return (
@@ -44,7 +72,7 @@ export default function Channels({
             />
           )}
         </div>
-        <div className="p-4">
+        <div className="relative p-4">
           <div className="flex items-center gap-2 bg-[#3C393F] rounded-md px-2 py-1">
             <IoMdSearch />
             <input
@@ -55,6 +83,25 @@ export default function Channels({
               className="bg-transparent outline-none placeholder:text-xs"
             />
           </div>
+          {searchItems.length > 0 && (
+            <div className="absolute top-10 w-full my-2 bg-slate-800 p-2 rounded-md">
+              {searchItems.map((item) => (
+                <div
+                  className="w-full my-1 hover:bg-slate-500 p-2 cursor-pointer"
+                  onClick={() => selectGroupForJoining(item)}
+                >
+                  {item.name}
+                </div>
+              ))}
+            </div>
+          )}
+          {openModal && (
+            <JoinModal
+              onClose={() => setOpenModal(false)}
+              groupData={selectedItem}
+              userData={userData}
+            />
+          )}
         </div>
         <div className="space-y-4 mt-3 px-4">
           {groups?.length === 0 && (
